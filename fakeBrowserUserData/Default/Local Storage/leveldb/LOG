@@ -1,2 +1,3 @@
-2022/11/03-17:23:45.805 5 Creating DB /home/rankvet/testing/fakeBrowserUserData/Default/Local Storage/leveldb since it was missing.
-2022/11/03-17:23:45.812 5 Reusing MANIFEST /home/rankvet/testing/fakeBrowserUserData/Default/Local Storage/leveldb/MANIFEST-000001
+2022/11/05-19:30:07.464 3 Reusing MANIFEST /home/rankvet/testing/fakeBrowserUserData/Default/Local Storage/leveldb/MANIFEST-000001
+2022/11/05-19:30:07.465 3 Recovering log #3
+2022/11/05-19:30:07.465 3 Reusing old log /home/rankvet/testing/fakeBrowserUserData/Default/Local Storage/leveldb/000003.log 

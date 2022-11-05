@@ -1,2 +1,3 @@
-2022/11/03-17:23:45.863 2497e Creating DB /home/rankvet/testing/fakeBrowserUserData/Default/shared_proto_db/metadata since it was missing.
-2022/11/03-17:23:45.870 2497e Reusing MANIFEST /home/rankvet/testing/fakeBrowserUserData/Default/shared_proto_db/metadata/MANIFEST-000001
+2022/11/05-19:30:07.521 f31a Reusing MANIFEST /home/rankvet/testing/fakeBrowserUserData/Default/shared_proto_db/metadata/MANIFEST-000001
+2022/11/05-19:30:07.521 f31a Recovering log #3
+2022/11/05-19:30:07.521 f31a Reusing old log /home/rankvet/testing/fakeBrowserUserData/Default/shared_proto_db/metadata/000003.log 
