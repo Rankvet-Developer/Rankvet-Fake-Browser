@@ -1,11 +1,11 @@
 import axios from "axios";
-import * as fs from "fs";
 import * as https from "https";
-import { Page } from "puppeteer";
+import { ElementHandle, Page } from "puppeteer";
+import googleSheets from "../googleSheets/googleSheets";
 import { DeviceDescriptor } from "../src/core/DeviceDescriptor";
 import { FakeBrowser } from "../src/core/FakeBrowser";
 import { FakeUserAction } from "../src/core/FakeUserAction";
-import helper from "../utils/helper/timezone";
+import { helper } from "../utils/helper/helper";
 
 export default class Bot {
   constructor(
@@ -70,36 +70,37 @@ export default class Bot {
 
       await this.page.waitForFunction(
         () => {
-          const iframe = document.querySelector('iframe[src*="api2/anchor"]');
+          const iframe = document.querySelector(
+            'iframe[src*="api2/anchor"]'
+          ) as HTMLIFrameElement;
           if (!iframe) return false;
 
-          return !!(iframe as any).contentWindow.document.querySelector(
+          return !!iframe.contentWindow?.document.querySelector(
             "#recaptcha-anchor"
           );
         },
         { timeout: 40000 }
       );
 
-      let frames = await this.page.frames();
+      let frames = this.page.frames();
       const recaptchaFrame = frames.find((frame) =>
         frame.url().includes("api2/anchor")
       );
 
-      const checkbox = await (recaptchaFrame as any).$("#recaptcha-anchor");
-      await this.userAction.simClickElement(checkbox);
-      //   await cursor.move(checkbox);
-      //   await cursor.click(checkbox);
-
-      // await checkbox.click({ delay: this.rdn(40, 150) });
+      const checkbox = await recaptchaFrame?.$("#recaptcha-anchor");
+      await this.userAction.simClickElement(checkbox as ElementHandle<Element>);
 
       try {
         await this.page.waitForFunction(() => {
-          const iframe = document.querySelector('iframe[src*="api2/bframe"]');
+          const iframe = document.querySelector(
+            'iframe[src*="api2/bframe"]'
+          ) as HTMLIFrameElement;
           if (!iframe) return false;
 
-          const img = (iframe as any).contentWindow.document.querySelector(
+          const img = iframe.contentWindow?.document.querySelector(
             ".rc-image-tile-wrapper img"
-          );
+          ) as HTMLImageElement;
+
           return img && img.complete;
         });
       } catch (err: any) {
@@ -108,19 +109,15 @@ export default class Bot {
         return true;
       }
 
-      frames = await this.page.frames();
+      frames = this.page.frames();
       const imageFrame = frames.find((frame) =>
         frame.url().includes("api2/bframe")
       );
-      const audioButton = await (imageFrame as any).$(
-        "#recaptcha-audio-button"
+      const audioButton = await imageFrame?.$("#recaptcha-audio-button");
+
+      await this.userAction.simClickElement(
+        audioButton as ElementHandle<Element>
       );
-
-      await this.userAction.simClickElement(audioButton);
-      //   await cursor.move(audioButton);
-      //   await cursor.click(audioButton);
-
-      // await audioButton.click({ delay: this.rdn(40, 150) })
 
       let cnt = 0;
       while (cnt < 3) {
@@ -129,10 +126,10 @@ export default class Bot {
             () => {
               const iframe = document.querySelector(
                 'iframe[src*="api2/bframe"]'
-              );
+              ) as HTMLIFrameElement;
               if (!iframe) return false;
 
-              return !!(iframe as any).contentWindow.document.querySelector(
+              return !!iframe.contentWindow?.document.querySelector(
                 ".rc-audiochallenge-tdownload-link"
               );
             },
@@ -145,9 +142,13 @@ export default class Bot {
         }
 
         const audioLink = await this.page.evaluate(() => {
-          const iframe = document.querySelector('iframe[src*="api2/bframe"]');
-          return (iframe as any).contentWindow.document.querySelector(
-            "#audio-source"
+          const iframe = document.querySelector(
+            'iframe[src*="api2/bframe"]'
+          ) as HTMLIFrameElement;
+          return (
+            iframe.contentWindow?.document.querySelector(
+              "#audio-source"
+            ) as HTMLAudioElement
           ).src;
         });
 
@@ -160,6 +161,7 @@ export default class Bot {
         }, audioLink);
 
         const httpsAgent = new https.Agent({ rejectUnauthorized: false });
+
         const res = await axios({
           httpsAgent,
           method: "post",
@@ -175,86 +177,91 @@ export default class Bot {
 
         try {
           const newData = "[" + res?.data?.replace(/}\s*{/g, "},{") + "]";
-
           const newText = JSON.parse(newData);
           audioTranscript = newText[newText.length - 1]["text"];
         } catch (err: any) {
           console.log(err.message);
-          const reloadButton = await (imageFrame as any).$(
-            "#recaptcha-reload-button"
+          const reloadButton = await imageFrame?.$("#recaptcha-reload-button");
+          await this.userAction.simClickElement(
+            reloadButton as ElementHandle<Element>
           );
-
-          await this.userAction.simClickElement(reloadButton);
-          // await cursor.move(reloadButton);
-          // await cursor.click(reloadButton);
-
-          // await reloadButton.click({ delay: this.rdn(40, 150) });
           cnt++;
           continue;
         }
 
-        const input = await (imageFrame as any).$("#audio-response");
-        // await input.click({ delay: this.rdn(30, 150) })
-        // await cursor.move(input);
-        // await cursor.click(input);
+        if (audioTranscript != null) {
+          const input = await imageFrame?.$("#audio-response");
 
-        await this.userAction.simClickElement(input);
-
-        await this.userAction.simKeyboardType(audioTranscript);
-        // await userAction.simKeyboardEsc();
-
-        // await input.type(audioTranscript, { delay: this.rdn(120,250) });
-
-        const verifyButton = await (imageFrame as any).$(
-          "#recaptcha-verify-button"
-        );
-
-        await this.userAction.simClickElement(verifyButton, {
-          pauseAfterMouseUp: false,
-        });
-
-        // await cursor.move(verifyButton);
-        // await cursor.click(verifyButton);
-
-        // await verifyButton.click({ delay: this.rdn(40, 150) })
-
-        try {
-          await this.page.waitForFunction(
-            () => {
-              const iframe = document.querySelector(
-                'iframe[src*="api2/anchor"]'
-              );
-              if (!iframe) return false;
-
-              return !!(iframe as any).contentWindow.document.querySelector(
-                '#recaptcha-anchor[aria-checked="true"]'
-              );
-            },
-            { timeout: 5000 }
+          await this.userAction.simClickElement(
+            input as ElementHandle<Element>
           );
 
-          return this.page.evaluate(
-            () => (document.getElementById("g-recaptcha-response") as any).value
+          await this.userAction.simKeyboardType(audioTranscript);
+
+          const verifyButton = await (imageFrame as any).$(
+            "#recaptcha-verify-button"
           );
-        } catch (e) {
-          console.error(e);
-          cnt++;
-          continue;
+
+          // click the audio verify button...
+          await this.userAction.simClickElement(verifyButton, {
+            pauseAfterMouseUp: false,
+          });
+
+          // waiting for the checkbox true...
+          try {
+            await this.page.waitForFunction(
+              () => {
+                const iframe = document.querySelector(
+                  'iframe[src*="api2/anchor"]'
+                ) as HTMLIFrameElement;
+                if (!iframe) return false;
+
+                return !!iframe.contentWindow?.document.querySelector(
+                  '#recaptcha-anchor[aria-checked="true"]'
+                );
+              },
+              { timeout: 5000 }
+            );
+
+            return this.page.evaluate(
+              () =>
+                (
+                  document.getElementById(
+                    "g-recaptcha-response"
+                  ) as HTMLInputElement
+                ).value
+            );
+          } catch (e) {
+            console.error(e);
+            cnt++;
+            continue;
+          }
+        } else {
+          return false;
         }
-
-        cnt = 3;
       }
-      return true;
+
+      if (cnt < 3) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (err: any) {
       console.log(err.message);
       return false;
     }
   }
 
-  async signup(url: string, username: string, password: string) {
+  async signup(
+    url: string,
+    username: string,
+    password: string,
+    visitorID: string
+  ) {
     try {
       await this.page.goto(url);
 
+      // removed the cookie policy element
       try {
         await this.page.evaluate(() => {
           const ele = document.querySelector("#eu-cookie-policy");
@@ -283,24 +290,43 @@ export default class Bot {
             { pauseAfterMouseUp: false }
           );
 
-          await this.page.waitForNavigation();
-          //   console.log(clickSubmitSuccess);
-          //   console.log("hello nishan...");
-
           if (clickSubmitSuccess) {
             console.log("waiting for navigation...");
-            await this.page.waitForNavigation();
+            await this.page.waitForNavigation({ timeout: 30000 });
 
-            // await page.waitForNavigation({timeout:30000});
             console.log("id create is done...");
-            fs.appendFileSync("./result.txt", `${username} ${password}\n`);
+            console.log("here check if the ID is good or not...");
+
+            try {
+              await helper.isIDValid(username);
+              // fs.appendFileSync("./result.txt", `${username} ${password}\n`);
+              console.log("ID is good...");
+
+              const dateTime = new Date().toLocaleString("en-GB", {
+                timeZone: "BST",
+                hour12: true,
+              });
+
+              await googleSheets.addData({
+                Username: username,
+                Password: password,
+                VisitorID: visitorID,
+                Date_Time: dateTime,
+              });
+
+              console.log("successfully data added into google sheet...");
+            } catch (err) {
+              console.log("id", err);
+            }
           }
         }
       } else {
         console.log("cannot solve the captcha...");
+        await this.fakeBrowser.shutdown();
       }
     } catch (ex: any) {
       console.log(ex.message);
+      await this.fakeBrowser.shutdown();
     }
   }
 }
