@@ -24,7 +24,7 @@ export default class Bot {
       .displayUserActionLayer(true)
       .deviceDescriptor(DD)
       .proxy({
-        proxy: newProxyUrl,
+        proxy: `https://${newProxyUrl}`,
         exportIP: exportIP,
       })
       .vanillaLaunchOptions({
@@ -36,6 +36,14 @@ export default class Bot {
     const fakeBrowser = await builder.launch();
     const page = await fakeBrowser.vanillaBrowser.newPage();
 
+    const username = "srG9Mxr7nniwQKwPLp2eC1xP";
+    const password = "eMqS7CmRqYdvLzu6RHZNRUb7";
+
+    await page.authenticate({
+      username: username,
+      password: password,
+    });
+
     await page.setRequestInterception(true);
     page.on("request", (request) => {
       const url = request.url();
@@ -45,7 +53,10 @@ export default class Bot {
       else request.continue();
     });
 
-    const tz = await helper.timezone(newProxyUrl);
+    const authProxy = `https://${username}:${password}@${exportIP}:89`;
+
+    const tz = await helper.timezone(authProxy);
+    console.log("timezone is ", tz);
     process.env.TZ = tz;
     await page.emulateTimezone(tz);
 
@@ -259,7 +270,7 @@ export default class Bot {
     visitorID: string
   ) {
     try {
-      await this.page.goto(url);
+      await this.page.goto(url, { timeout: 40000 });
 
       // removed the cookie policy element
       try {
@@ -292,7 +303,8 @@ export default class Bot {
 
           if (clickSubmitSuccess) {
             console.log("waiting for navigation...");
-            await this.page.waitForNavigation({ timeout: 30000 });
+            // await this.page.waitForNavigation({ timeout: 50000 });
+            await this.page.waitForTimeout(12000);
 
             console.log("id create is done...");
             console.log("here check if the ID is good or not...");

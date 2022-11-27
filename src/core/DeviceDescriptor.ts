@@ -20,6 +20,8 @@ export enum FontExistTypes {
  * A: Use dumpDD.js to collect fingerprints.
  */
 export interface DeviceDescriptor {
+  // _id?: Types.ObjectId;
+  visitorId: string;
   plugins: {
     mimeTypes: Array<{
       type: string;

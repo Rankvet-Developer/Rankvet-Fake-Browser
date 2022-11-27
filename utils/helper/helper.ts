@@ -33,19 +33,29 @@ function isIDValid(username: string) {
   });
 }
 
-function getUserName(proxy: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    axios({
-      method: "get",
-      url: "https://www.reddit.com/api/v1/generate_username.json",
-      httpsAgent: new (HttpsProxyAgent as any)(proxy),
-    })
-      .then((res) => {
-        const rIndex = randomNumber(0, res.data?.usernames?.length - 1);
-        resolve(res.data?.usernames[rIndex]);
-      })
-      .catch((err: any) => reject(err.message));
+async function getUserName(proxy?: string): Promise<string> {
+  const res = await axios({
+    method: "get",
+    url: "https://www.reddit.com/api/v1/generate_username.json",
+    httpsAgent: new (HttpsProxyAgent as any)(proxy),
+    timeout: 30000,
   });
+
+  const rIndex = randomNumber(0, res.data?.usernames?.length - 1);
+  return res.data?.usernames[rIndex];
+
+  // return new Promise((resolve, reject) => {
+  //   axios({
+  //     method: "get",
+  //     url: "https://www.reddit.com/api/v1/generate_username.json",
+  //     httpsAgent: new (HttpsProxyAgent as any)(proxy),
+  //   })
+  //     .then((res) => {
+  //       const rIndex = randomNumber(0, res.data?.usernames?.length - 1);
+  //       resolve(res.data?.usernames[rIndex]);
+  //     })
+  //     .catch((err: any) => reject(err.message));
+  // });
 }
 
 function passGen(): string {
@@ -89,7 +99,8 @@ function passGen(): string {
   return password;
 }
 
-function timezone(proxy: string): Promise<string> {
+function timezone(proxy?: string): Promise<string> {
+  console.log("proxy is ", proxy);
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
@@ -97,7 +108,7 @@ function timezone(proxy: string): Promise<string> {
       httpsAgent: new (HttpsProxyAgent as any)(proxy),
     })
       .then((res: any) => {
-        console.log(res.data?.geo?.tz);
+        // console.log(res.data?.geo?.tz);
         resolve(res.data?.geo?.tz);
       })
       .catch((err: any) => {

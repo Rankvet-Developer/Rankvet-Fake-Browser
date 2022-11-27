@@ -30,14 +30,19 @@ class GoogleSheet {
     const sheet =
       this.doc.sheetsByTitle[process.env.GOOGLE_SHEET_TITLE as string];
 
-    let data: DataInfo = {
-      Username,
-      Password,
-      Account_link: `https://old.reddit.com/user/${Username}`,
-      VisitorID,
-      Date_Time,
-      VpsName: process.env.VPSNAME,
+    const data = {
+      username: Username,
+      password: Password,
     };
+
+    // let data: DataInfo = {
+    //   Username,
+    //   Password,
+    //   Account_link: `https://old.reddit.com/user/${Username}`,
+    //   VisitorID,
+    //   Date_Time,
+    //   VpsName: process.env.VPSNAME,
+    // };
 
     await sheet.addRow({ ...data });
   }
