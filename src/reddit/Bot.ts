@@ -2,9 +2,9 @@ import axios from "axios";
 import * as https from "https";
 import { ElementHandle, Page } from "puppeteer";
 import googleSheets from "../googleSheets/googleSheets";
-import { DeviceDescriptor } from "../src/core/DeviceDescriptor";
-import { FakeBrowser } from "../src/core/FakeBrowser";
-import { FakeUserAction } from "../src/core/FakeUserAction";
+import { DeviceDescriptor } from "../core/DeviceDescriptor";
+import { FakeBrowser } from "../core/FakeBrowser";
+import { FakeUserAction } from "../core/FakeUserAction";
 import { helper } from "../utils/helper/helper";
 
 export default class Bot {
@@ -55,7 +55,8 @@ export default class Bot {
 
     const authProxy = `https://${username}:${password}@${exportIP}:89`;
 
-    const tz = await helper.timezone(authProxy);
+    console.log("timezone...");
+    const tz = await helper.timezone(authProxy, fakeBrowser);
     console.log("timezone is ", tz);
     process.env.TZ = tz;
     await page.emulateTimezone(tz);

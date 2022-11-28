@@ -1,3 +1,4 @@
+import { FakeBrowser } from "./../../core/FakeBrowser";
 import "dotenv/config";
 
 import axios from "axios";
@@ -99,13 +100,14 @@ function passGen(): string {
   return password;
 }
 
-function timezone(proxy?: string): Promise<string> {
+function timezone(proxy: string, browser: FakeBrowser): Promise<string> {
   console.log("proxy is ", proxy);
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
       url: "https://lumtest.com/myip.json",
       httpsAgent: new (HttpsProxyAgent as any)(proxy),
+      timeout: 15000,
     })
       .then((res: any) => {
         // console.log(res.data?.geo?.tz);
@@ -113,7 +115,8 @@ function timezone(proxy?: string): Promise<string> {
       })
       .catch((err: any) => {
         console.log(err.message);
-        reject(err.message);
+
+        reject({ message: "timezone", browser });
       });
   });
 }

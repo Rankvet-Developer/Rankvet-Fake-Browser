@@ -3,3 +3,4 @@ node_modules
 googleSheets/credentials.json
 fakeBrowserUserData
 result.txt
+auth.txt

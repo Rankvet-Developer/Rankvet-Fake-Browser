@@ -3,7 +3,7 @@ import {
   LaunchParameters,
   ProxyServer,
   VanillaLaunchOptions,
-} from "Driver";
+} from "./Driver";
 import * as path from "path";
 import { kDefaultWindowsDD } from "../helper/defaultArgs";
 import { BrowserLauncher } from "./BrowserLauncher";

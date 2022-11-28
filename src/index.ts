@@ -4,10 +4,11 @@ import * as fs from "fs-extra";
 import psTree from "ps-tree";
 import "./googleSheets/connect_googleSheet";
 import Bot from "./reddit/Bot";
-import { FakeBrowser } from "./src/core/FakeBrowser";
-import "./src/db/connect";
-import { FingerPrint } from "./src/db/schemas";
+import { FakeBrowser } from "./core/FakeBrowser";
+import "./db/connect";
+import { FingerPrint } from "./db/schemas";
 import { helper } from "./utils/helper/helper";
+import * as path from "path";
 
 const userDataDir = "./fakeBrowserUserData";
 // const proxyChain = require("proxy-chain");
@@ -24,7 +25,7 @@ let ovpnProcess: ChildProcess | null = null;
 
 const vpnSetup = () => {
   const allserver = fs
-    .readFileSync("./downloadedserver.txt")
+    .readFileSync(path.join(__dirname, "./downloadedserver.txt"))
     .toString()
     .split("\n");
 
@@ -155,8 +156,13 @@ const main = async () => {
 
       i++;
     } catch (err: any) {
-      console.log("main error!", err.message);
-      if (mainFakeBrowser) await mainFakeBrowser.shutdown?.();
+      if (err.message === "timezone") {
+        console.log("timezone error");
+        await err.browser.shutdown();
+      }
+      console.log("main error!", err);
+      // console.log("Mainfakebrowser is ", mainFakeBrowser);
+      mainFakeBrowser && (await mainFakeBrowser.shutdown?.());
     }
   }
 };
