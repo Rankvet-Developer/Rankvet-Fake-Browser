@@ -1,0 +1,140 @@
+{
+  "plugins": {
+    "mimeTypes": [
+      {
+        "type": "application/pdf",
+        "suffixes": "pdf",
+        "description": "Portable Document Format",
+        "__pluginName": "PDF Viewer"
+      },
+      {
+        "type": "text/pdf",
+        "suffixes": "pdf",
+        "description": "Portable Document Format",
+        "__pluginName": "PDF Viewer"
+      }
+    ],
+    "plugins": [
+      {
+        "name": "PDF Viewer",
+        "filename": "internal-pdf-viewer",
+        "description": "Portable Document Format",
+        "__mimeTypes": [
+          "application/pdf",
+          "text/pdf"
+        ]
+      },
+      {
+        "name": "Chrome PDF Viewer",
+        "filename": "internal-pdf-viewer",
+        "description": "Portable Document Format",
+        "__mimeTypes": [
+          "application/pdf",
+          "text/pdf"
+        ]
+      },
+      {
+        "name": "Chromium PDF Viewer",
+        "filename": "internal-pdf-viewer",
+        "description": "Portable Document Format",
+        "__mimeTypes": [
+          "application/pdf",
+          "text/pdf"
+        ]
+      },
+      {
+        "name": "Microsoft Edge PDF Viewer",
+        "filename": "internal-pdf-viewer",
+        "description": "Portable Document Format",
+        "__mimeTypes": [
+          "application/pdf",
+          "text/pdf"
+        ]
+      },
+      {
+        "name": "WebKit built-in PDF",
+        "filename": "internal-pdf-viewer",
+        "description": "Portable Document Format",
+        "__mimeTypes": [
+          "application/pdf",
+          "text/pdf"
+        ]
+      }
+    ]
+  },
+  "navigator": {
+    "userAgent": "Mozilla/5.0 (Windows NT 6.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    "appCodeName": "Mozilla",
+    "appName": "Netscape",
+    "appVersion": "5.0 (Windows NT 6.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    "platform": "Win32",
+    "product": "Gecko",
+    "vendor": "Google Inc.",
+    "deviceMemory": 54,
+    "language": "en-GB",
+    "languages": [
+      "en-GB",
+      "en-US",
+      "en"
+    ],
+    "productSub": "20030107"
+  },
+  "window": {
+    "innerWidth": 994,
+    "outerWidth": 1026,
+    "innerHeight": 856,
+    "outerHeight": 1062,
+    "screenX": 320,
+    "screenY": 78
+  },
+  "keyboard": {
+    "KeyA": "a",
+    "KeyB": "b",
+    "KeyC": "c",
+    "KeyD": "d",
+    "KeyE": "e",
+    "KeyF": "f",
+    "KeyG": "g",
+    "KeyH": "h",
+    "KeyI": "i",
+    "KeyJ": "j",
+    "KeyK": "k",
+    "KeyL": "l",
+    "KeyM": "m",
+    "KeyN": "n",
+    "KeyO": "o",
+    "KeyP": "p",
+    "KeyQ": "q",
+    "KeyR": "r",
+    "KeyS": "s",
+    "KeyT": "t",
+    "KeyU": "u",
+    "KeyV": "v",
+    "KeyW": "w",
+    "KeyX": "x",
+    "KeyY": "y",
+    "KeyZ": "z",
+    "Digit1": "1",
+    "Digit2": "2",
+    "Digit3": "3",
+    "Digit4": "4",
+    "Digit5": "5",
+    "Digit6": "6",
+    "Digit7": "7",
+    "Digit8": "8",
+    "Digit9": "9",
+    "Digit0": "0",
+    "Minus": "-",
+    "Equal": "=",
+    "BracketLeft": "[",
+    "BracketRight": "]",
+    "Backslash": "\\",
+    "Semicolon": ";",
+    "Quote": "'",
+    "Backquote": "`",
+    "Comma": ",",
+    "Period": ".",
+    "Slash": "/",
+    "IntlBackslash": "<"
+  }
+}
