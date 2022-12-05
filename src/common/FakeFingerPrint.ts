@@ -168,7 +168,16 @@ export class FakeFingerPrint {
         };
     }
 
+    private gpu() {
+        return {
+            vendor: 'Google Inc. (Intel)',
+            renderer:
+                'ANGLE (Intel, Vulkan 1.2.182 (Intel(R) UHD Graphics 630 (CML GT2) (0x00009BC8)), Intel open-source Mesa driver)',
+        };
+    }
+
     public generateFingerPrint() {
+        // create fake finger print if it not exists
         if (fs.existsSync(userDataDir)) {
             fs.removeSync(path.join(__dirname, `../../${userDataDir}`));
 
@@ -191,10 +200,11 @@ export class FakeFingerPrint {
             navigator: this.navigator(),
             window: this.window(),
             keyboard: this.keyboard(),
+            gpu: this.gpu(),
         };
 
         if (fs.existsSync(userDataDir)) {
-            fs.writeJSONSync(fakeDDPathName, fakeData, { spaces: 2 });
+            fs.writeJSONSync(fakeDDPathName, fakeData, { spaces: 4 });
         }
     }
 }
