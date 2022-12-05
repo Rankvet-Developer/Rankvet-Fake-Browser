@@ -1,7 +1,6 @@
 import path from 'path';
 import { Browser } from 'puppeteer';
 import { FakeFingerPrint } from '../common/FakeFingerPrint';
-import { helper } from '../common/helper';
 import { BrowserLauncher } from './BrowserLauncher';
 import { DriverParams, ProxyServer, VanillaLaunchOptions } from './types';
 

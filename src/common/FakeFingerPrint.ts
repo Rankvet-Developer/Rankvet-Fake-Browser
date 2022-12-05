@@ -6,12 +6,24 @@ import path from 'path';
 const userDataDir = 'fakeBrowserUserData';
 const kFakeDDFileName = '__fakebrowser_fakeDD.json';
 
+/**
+ * FakeFingerPrint
+ * @constructor for generating new useragent
+ * @function platform
+ * @function navigator
+ * @function window
+ * @function keyboard
+ * @function plugins
+ * @function gpu
+ */
 export class FakeFingerPrint {
     private readonly userAgent: string;
     constructor() {
-        const ua = helper.getUserAgent();
-        console.log(ua);
-        this.userAgent = ua;
+        let ua = helper.getUserAgent();
+        ua = ua.split('Safari/537.36')[0];
+        const newUa = ua + 'Safari/537.36';
+        console.log(newUa);
+        this.userAgent = newUa;
     }
 
     private platform(value: string): string {
@@ -51,14 +63,17 @@ export class FakeFingerPrint {
     }
 
     private window() {
-        const innerWidth = helper.rd(950, 1820);
+        const innerWidth = helper.rd(950, 1620);
         const outerWidth = innerWidth + 32;
+
+        const innerHeight = helper.rd(709, 871);
+        const outerHeight = innerHeight + 105;
 
         return {
             innerWidth,
             outerWidth,
-            innerHeight: helper.rd(700, 1000),
-            outerHeight: helper.rd(700, 1100),
+            innerHeight,
+            outerHeight,
             screenX: helper.rd(2, 600),
             screenY: helper.rd(19, 117),
         };

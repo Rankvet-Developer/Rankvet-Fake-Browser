@@ -46,7 +46,7 @@ export class BrowserLauncher {
         } = fakeDD.window;
 
         outerWidth = outerWidth || innerWidth;
-        outerHeight = outerHeight || innerHeight + 85;
+        outerHeight = outerHeight || innerHeight;
         args.push(
             `--window-position=${screenX},${screenY}`,
             `--window-size=${outerWidth},${outerHeight}`,
