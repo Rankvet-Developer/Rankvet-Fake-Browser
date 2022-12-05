@@ -63,14 +63,14 @@
         ]
     },
     "navigator": {
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.158 Safari/537.36",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36",
         "appCodeName": "Mozilla",
         "appName": "Netscape",
-        "appVersion": "5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.158 Safari/537.36",
+        "appVersion": "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36",
         "platform": "Win32",
         "product": "Gecko",
         "vendor": "Google Inc.",
-        "deviceMemory": 41,
+        "deviceMemory": 38,
         "language": "en-GB",
         "languages": [
             "en-GB",
@@ -80,12 +80,12 @@
         "productSub": "20030107"
     },
     "window": {
-        "innerWidth": 1309,
-        "outerWidth": 1341,
-        "innerHeight": 735,
-        "outerHeight": 840,
-        "screenX": 389,
-        "screenY": 25
+        "innerWidth": 1343,
+        "outerWidth": 1375,
+        "innerHeight": 745,
+        "outerHeight": 850,
+        "screenX": 393,
+        "screenY": 52
     },
     "keyboard": {
         "KeyA": "a",

@@ -1,6 +1,6 @@
 export interface ProxyServer {
     proxy: string;
-    exportIP: string;
+    exportIP: string | undefined;
 }
 
 export interface VanillaLaunchOptions {
